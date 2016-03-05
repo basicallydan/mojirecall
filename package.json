@@ -1,0 +1,26 @@
+{
+  "name": "mojirecall",
+  "version": "0.1.0",
+  "description": "A super fun Emoji recall experiment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/basicallydan/mojirecall.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/basicallydan/mojirecall/issues"
+  },
+  "homepage": "https://github.com/basicallydan/mojirecall#readme",
+  "dependencies": {
+    "bonzo": "^2.0.0",
+    "browserify": "^13.0.0",
+    "chibijs": "^3.0.7",
+    "lodash": "^4.6.1",
+    "watchify": "^3.7.0"
+  }
+}
