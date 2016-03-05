@@ -1,3 +1,3 @@
 
 develop:
-	"./node_modules/.bin/watchify" index.js -o bin/bundle.js
+	"./node_modules/.bin/watchify" lib/index.js -o bin/bundle.js
