@@ -1,5 +1,6 @@
 var sampleSize = require('lodash/sampleSize');
 var delay = require('lodash/delay');
+var difference = require('lodash/difference');
 var bonzo = require('bonzo');
 
 allEmoji = [];
@@ -17,7 +18,8 @@ while (currentEmoji !== emoticonsRange[1]) {
 	allEmoji.push(String.fromCodePoint(currentEmoji++));
 }
 
-var recallCount = 5;
+var recallCount = 2;
+var answer = [];
 
 var startRecallExperiment = document.getElementById('startRecallExperiment');
 var startRecallForm = document.getElementById('startRecallForm');
@@ -42,8 +44,26 @@ function verifyChoices(choices, stage) {
 	var m = 0;
 	var heading = "<h2>These were the choices. Click to put them in the text box.</h2>"
 	$instructionArea.html(heading);
+	var choiceButton;
 	for (m = choices.length - 1; m >= 0; m--) {
-		$instructionArea.append('<a href="#">' + choices[m] + '</a>');
+		choiceButton = document.createElement('a');
+		bonzo(choiceButton).addClass('emoji emoji-choice');
+		bonzo(choiceButton).text(choices[m]);
+		// TODO: Unbind these puppies
+		choiceButton.addEventListener('click', function(event) {
+			answer.push(bonzo(this).text());
+			if (answer.length === recallCount) {
+				if (difference(answer, stage).length === 0) {
+					alert('Correct!');
+					recallCount += 1;
+					nextStage();
+				} else {
+					alert('Nope!');
+					showInstructionText('The best you can recall is ' + (recallCount - 1));
+				}
+			}
+		}, false);
+		$instructionArea.append(choiceButton);
 	}
 }
 
@@ -51,6 +71,7 @@ function nextStage() {
 	var numberOfChoices = Math.min(recallCount * 5, allEmoji.length);
 	var choices = sampleSize(allEmoji, numberOfChoices);
 	var stage = sampleSize(choices, recallCount);
+	answer = [];
 	var m = 0;
 	$startRecallForm.addClass('hidden');
 	delay(showInstructionText, 0, '3');
@@ -62,7 +83,6 @@ function nextStage() {
 	}
 	delay(showInstructionText, 3000 + (m++ * 1000), 'Done.');
 	delay(verifyChoices, 3000 + (m * 1000), choices, stage);
-	recallCount += 1;
 }
 
 tests = [];
@@ -71,3 +91,12 @@ startRecallExperiment.addEventListener('click', function( event ) {
 	// recallCount = 1;
 	nextStage();
 }, false);
+
+function debug() {
+	var numberOfChoices = Math.min(recallCount * 5, allEmoji.length);
+	var choices = sampleSize(allEmoji, numberOfChoices);
+	var stage = sampleSize(choices, recallCount);
+	verifyChoices(choices, stage);
+}
+
+// debug();
