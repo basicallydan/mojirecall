@@ -23,8 +23,10 @@ html {
 }
 
 .large-central-message {
-	text-align:1.5rem;
-	width:80em;
+	font-size:1.5rem;
+	max-width:20em;
+	text-align:center;
+	margin:1rem auto;
 }
 
 .xlarge-cta {
