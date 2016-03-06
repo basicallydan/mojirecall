@@ -2,6 +2,10 @@ html {
 	font-family:"Helvetica Neue", Helvetica, Arial, Calibri, sans-serif;
 }
 
+div {
+	margin-bottom:1rem;
+}
+
 .emoji {
 	font-weight:normal;
 }
