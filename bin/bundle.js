@@ -113,7 +113,7 @@ function resetUI() {
 	$startRecallForm.removeClass('hidden');
 }
 
-function showInstructionText(text) {
+function showInstructionHTML(text) {
 	$instructionPanel.removeClass('hidden');
 	$instructionPanel.html(text);
 }
@@ -225,16 +225,16 @@ function nextStage() {
 	$recallSelection.empty();
 	$startRecallForm.addClass('hidden');
 
-	delay(showInstructionText, 0, '3');
-	delay(showInstructionText, 1000, '2');
-	delay(showInstructionText, 2000, '1');
-	delay(showInstructionText, 3000, 'GO!');
+	delay(showInstructionHTML, 0, '3');
+	delay(showInstructionHTML, 1000, '2');
+	delay(showInstructionHTML, 2000, '1');
+	delay(showInstructionHTML, 3000, 'GO!');
 
 	forEach(round.stage, function (moji, index) {
-		delay(showInstructionText, 3000 + (index * 1000), moji);
+		delay(showInstructionHTML, 3000 + (index * 1000), moji);
 	});
 
-	delay(showInstructionText, 3000 + (round.stage.length * 1000), 'Done.');
+	delay(showInstructionHTML, 3000 + (round.stage.length * 1000), 'Done.');
 	delay(showChoices, 3000 + ((round.stage.length + 1) * 1000));
 }
 
