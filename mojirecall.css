@@ -44,14 +44,51 @@ html {
 
 /* Choices bit */
 
+.current-test {
+	text-align:center;
+}
+
+.emoji-list {
+	font-size:1.5rem;
+}
+
+.emoji-choice,.emoji-selection,.emoji-selection-empty {
+	text-decoration:none;
+	padding:0.3rem 0.5rem;
+	display:inline-block;
+	border-radius:0.2rem;
+    box-sizing: border-box;
+}
+
 .emoji-choice {
 	text-decoration:none;
 	padding:0.3rem 0.5rem;
 	display:inline-block;
 	border-radius:0.2rem;
+	box-sizing: border-box;
+	border:1px solid transparent;
 }
 
 .emoji-choice:hover {
 	text-decoration:none;
 	background-color:#efefef;
+}
+
+.emoji-selection,.emoji-selection-empty {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+.emoji-selection {
+	border:1px solid #4078c0;
+	background-color:#4078c0;
+}
+
+.emoji-selection-empty {
+    border: 1px dashed #4078c0;
+    background-color: transparent;
+
+    /* This should have regular text in it */
+    color:#efefef;
 }
