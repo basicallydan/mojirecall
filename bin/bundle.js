@@ -38,7 +38,7 @@ var isEmojiSupported = require('./isEmojiSupported');
 
 allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange]);
 
-var recallCount = 2;
+var recallCount = 1;
 var currentAnswer = [];
 
 var startRecallExperiment = document.getElementById('startRecallExperiment');
