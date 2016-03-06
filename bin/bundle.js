@@ -43,9 +43,15 @@ var currentAnswer = [];
 
 var startRecallExperiment = document.getElementById('startRecallExperiment');
 var startRecallForm = document.getElementById('startRecallForm');
-var instructionArea = document.getElementById('instructions');
-var $instructionArea = bonzo(instructionArea);
+var instructionPanel = document.getElementById('instructions');
+var resultsPanel = document.getElementById('resultsPanel');
+var tryAgainButton = document.getElementById('tryAgain');
+var resultsSummary = document.getElementById('resultsSummary');
+
 var $startRecallForm = bonzo(startRecallForm);
+var $instructionPanel = bonzo(instructionPanel);
+var $resultsPanel = bonzo(resultsPanel);
+var $resultsSummary = bonzo(resultsSummary);
 
 function randomlySelectFromArray(ar) {
 	var item = items[Math.floor(Math.random() * ar.length)];
@@ -53,19 +59,27 @@ function randomlySelectFromArray(ar) {
 
 function resetUI() {
 	recallCount = 0;
-	$instructionArea.addClass('hidden');
+	$resultsPanel.addClass('hidden');
+	$instructionPanel.addClass('hidden');
 	$startRecallForm.removeClass('hidden');
 }
 
 function showInstructionText(text) {
-	$instructionArea.removeClass('hidden');
-	$instructionArea.html(text);
+	$instructionPanel.removeClass('hidden');
+	$instructionPanel.html(text);
+}
+
+function showGameOver() {
+	$resultsSummary.text('The best you can recall is ' + (recallCount - 1));
+	tryAgainButton.addEventListener('click', resetUI, false);
+	$instructionPanel.addClass('hidden');
+	$resultsPanel.removeClass('hidden');
 }
 
 function verifyChoices(choices, stage) {
 	var m = 0;
 	var heading = "<h2>These were the choices. Click to put them in the text box.</h2>"
-	$instructionArea.html(heading);
+	$instructionPanel.html(heading);
 	var choiceButton;
 	for (m = choices.length - 1; m >= 0; m--) {
 		choiceButton = document.createElement('a');
@@ -81,16 +95,11 @@ function verifyChoices(choices, stage) {
 					nextStage();
 				} else {
 					alert('Nope. You were shown:\n' + stage.join(' ') + '\nBut your answer was:\n' + currentAnswer.join(' ') + '\n\nBetter luck next time.');
-					showInstructionText('The best you can recall is ' + (recallCount - 1));
-					tryAgainButton = document.createElement('button');
-					bonzo(tryAgainButton).addClass('xlarge-cta cta-block');
-					bonzo(tryAgainButton).text('Try again? 🙏');
-					tryAgainButton.addEventListener('click', resetUI, false);
-					$instructionArea.append(tryAgainButton);
+					showGameOver();
 				}
 			}
 		}, false);
-		$instructionArea.append(choiceButton);
+		$instructionPanel.append(choiceButton);
 	}
 }
 
