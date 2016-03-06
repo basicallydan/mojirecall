@@ -25,8 +25,14 @@
 		<h3>Your selections</h3>
 		<div class="emoji-list" id="recallSelection"></div>
 		<div id="currentRoundResult" class="hidden">
-			<h4>Correct</h4>
-			<input id="storyInput" type="text" />
+			<div class="correct-message">Right! Well done.</div>
+			<button class="xlarge-cta" id="nextRoundButton">Next round</button>
+			<div class="hidden">
+				<h4>How did you remember this? How did you describe the series of Emoji to yourself?</h4>
+				<input id="storyInput" type="text" />
+				<input type="checkbox" id="noStoryCheckbox" /><label for="noStoryCheckbox">Check here if you'll never want to do this</label>
+				<button id="submitStory">Send, then next round</button>
+			</div>
 		</div>
 	</div>
 	<div id="instructions" class="large-central-message"></div>

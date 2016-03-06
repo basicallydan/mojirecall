@@ -98,6 +98,7 @@ var recallChoices = document.getElementById('recallChoices');
 var recallSelection = document.getElementById('recallSelection');
 var currentTestPanel = document.getElementById('currentTestPanel');
 var currentRoundResult = document.getElementById('currentRoundResult');
+var nextRoundButton = document.getElementById('nextRoundButton');
 
 var $startRecallForm = bonzo(startRecallForm);
 var $instructionPanel = bonzo(instructionPanel);
@@ -108,6 +109,7 @@ var $recallChoices = bonzo(recallChoices);
 var $recallSelection = bonzo(recallSelection);
 var $currentTestPanel = bonzo(currentTestPanel);
 var $currentRoundResult = bonzo(currentRoundResult);
+var $nextRoundButton = bonzo(nextRoundButton);
 
 function resetUI() {
 	$resultsPanel.addClass('hidden');
@@ -179,8 +181,7 @@ function removeSelection() {
 }
 
 function showCorrectMessage() {
-	alert('Correct!');
-	nextStage();
+	$currentRoundResult.removeClass('hidden');
 }
 
 function verifyChoices() {
@@ -236,6 +237,7 @@ function nextStage() {
 	$recallChoices.empty();
 	$recallSelection.empty();
 	$startRecallForm.addClass('hidden');
+	$currentRoundResult.addClass('hidden');
 
 	delay(showInstructionHTML, 0, '<span class="large-central-instruction">3</span>');
 	delay(showInstructionHTML, 1000, '<span class="large-central-instruction">2</span>');
@@ -258,6 +260,10 @@ tests = [];
 
 startRecallExperiment.addEventListener('click', function() {
 	currentGame = new Game();
+	nextStage();
+}, false);
+
+nextRoundButton.addEventListener('click', function() {
 	nextStage();
 }, false);
 

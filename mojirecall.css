@@ -35,6 +35,7 @@ div {
 
 .cta-block {
 	display: block;
+	cursor:pointer;
 }
 
 .xlarge-cta {
@@ -47,14 +48,21 @@ div {
 }
 
 /* Memorising part */
+
 .large-central-instruction {
 	height:20vmin;
 	line-height:20vmin;
 	vertical-align:center;
 	font-size:15vmin;
 }
+
 .emoji-flash {
 	font-size:20vmin;
+}
+
+.correct-message {
+	color:#60b044;
+	font-size:1.5rem;
 }
 
 /* Choices bit */
