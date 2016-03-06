@@ -274,6 +274,13 @@ if (!isEmojiSupported(thinkingEmoji)) {
 },{"./Game":1,"./isEmojiSupported":4,"bonzo":5,"lodash/delay":99,"lodash/difference":100,"lodash/forEach":102,"lodash/pull":117}],4:[function(require,module,exports){
 /*
 Adapted from code by @mwunsch at https://gist.github.com/mwunsch/4710561
+
+The rule is:
+If you have the smiling emoji in Canvas draw
+  Try to prune the ones you DON'T have
+Else if you don't, or you're in firefox
+  Don't try to prune
+  This means you may end up with loads of squares
 */
 var smilingEmoji = 0x1F604;
 
