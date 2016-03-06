@@ -141,9 +141,17 @@ function isEmojiSupported(code) {
     // They probably don't support emoji.
     if (!document.createElement('canvas').getContext) return false;
 
-    if (!isEmojiSupported.context) {
-        isEmojiSupported.context = document.createElement('canvas').getContext('2d');        
+    if (!isEmojiSupported.canvas) {
+        isEmojiSupported.canvas = document.createElement('canvas');       
+        isEmojiSupported.context = isEmojiSupported.canvas.getContext('2d');        
     }
+
+    isEmojiSupported.context.clearRect(
+        0,
+        0,
+        isEmojiSupported.canvas.width,
+        isEmojiSupported.canvas.height
+    );
 
     if (typeof isEmojiSupported.context.fillText != 'function') return false;
 
