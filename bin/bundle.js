@@ -89,8 +89,7 @@ function showGameOver() {
 			'<h4>You were shown:</h4>' +
 			'<div class="emoji-list">' + historicResults[h].stage.join(' ') + '</div>' +
 			'<h4>But your answer was:</h4>' +
-			'<div class="emoji-list">' + historicResults[h].answer.join(' ') + '</div>' +
-			'<p>Better luck next time.</p>'
+			'<div class="emoji-list">' + historicResults[h].answer.join(' ') + '</div>'
 		);
 	}
 
