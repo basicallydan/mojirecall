@@ -79,6 +79,7 @@ html {
 	box-sizing: border-box;
 	border:1px solid transparent;
 	font-size:10vmin;
+	cursor:pointer;
 }
 
 .emoji-choice:hover {
@@ -95,6 +96,7 @@ html {
 .emoji-selection {
 	border:1px solid #4078c0;
 	background-color:#4078c0;
+	cursor:pointer;
 }
 
 .emoji-selection-empty {
