@@ -159,6 +159,7 @@ function addSelection(emojiText) {
 }
 
 function removeSelection() {
+	var round = currentGame.currentRound;
 	$this = bonzo(this);
 
 	pull(round.answer, $this.text());
@@ -167,6 +168,11 @@ function removeSelection() {
 		$this.text('?');
 		$this.addClass('emoji-selection-empty');
 		$this.removeClass('emoji-selection');
+	} else {
+		$this.text('?');
+		$this.addClass('emoji-selection-empty');
+		$this.removeClass('emoji-selection');
+		$this.remove().appendTo($recallSelection)
 	}
 }
 
