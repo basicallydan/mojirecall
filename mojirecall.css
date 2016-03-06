@@ -61,6 +61,8 @@ div {
 
 .current-test {
 	text-align:center;
+	max-width:750px;
+	margin:0 auto 1rem auto;
 }
 
 .emoji-list {

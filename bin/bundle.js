@@ -97,6 +97,7 @@ var roundResults = document.getElementById('roundResults');
 var recallChoices = document.getElementById('recallChoices');
 var recallSelection = document.getElementById('recallSelection');
 var currentTestPanel = document.getElementById('currentTestPanel');
+var currentRoundResult = document.getElementById('currentRoundResult');
 
 var $startRecallForm = bonzo(startRecallForm);
 var $instructionPanel = bonzo(instructionPanel);
@@ -106,6 +107,7 @@ var $roundResults = bonzo(roundResults);
 var $recallChoices = bonzo(recallChoices);
 var $recallSelection = bonzo(recallSelection);
 var $currentTestPanel = bonzo(currentTestPanel);
+var $currentRoundResult = bonzo(currentRoundResult);
 
 function resetUI() {
 	$resultsPanel.addClass('hidden');
@@ -172,8 +174,13 @@ function removeSelection() {
 		$this.text('?');
 		$this.addClass('emoji-selection-empty');
 		$this.removeClass('emoji-selection');
-		$this.remove().appendTo($recallSelection)
+		$this.remove().appendTo($recallSelection);
 	}
+}
+
+function showCorrectMessage() {
+	alert('Correct!');
+	nextStage();
 }
 
 function verifyChoices() {
@@ -182,8 +189,7 @@ function verifyChoices() {
 		currentGame.finishCurrentRound();
 
 		if (difference(round.answer, round.stage).length === 0) {
-			alert('Correct!');
-			nextStage();
+			showCorrectMessage();
 		} else {
 			alert('Nope. You were shown:\n' + round.stage.join(' ') + '\nBut your answer was:\n' + round.answer.join(' ') + '\n\nBetter luck next time.');
 			showGameOver();
