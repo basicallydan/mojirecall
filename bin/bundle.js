@@ -32,6 +32,9 @@ var emoticonsRange = [0x1F601, 0x1F64F];
 var dingbatsRange = [0x2702, 0x27B0];
 var transportMapsRange = [0x1F680, 0x1F6C0];
 var tailRange = [0x2668, 0xF5FF];
+var thinkingEmoji = 0x1F914;
+
+var isEmojiSupported = require('./isEmojiSupported');
 
 allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange]);
 
@@ -123,8 +126,12 @@ function debug() {
 	verifyChoices(choices, stage);
 }
 
+if (!isEmojiSupported(thinkingEmoji)) {
+	bonzo(document.getElementById('emojiThinkingHeader')).remove()
+}
+
 // debug();
-},{"./createEmojiArray":1,"bonzo":4,"lodash/delay":62,"lodash/difference":63,"lodash/sampleSize":77}],3:[function(require,module,exports){
+},{"./createEmojiArray":1,"./isEmojiSupported":3,"bonzo":4,"lodash/delay":62,"lodash/difference":63,"lodash/sampleSize":77}],3:[function(require,module,exports){
 /*
 Adapted from code by @mwunsch at https://gist.github.com/mwunsch/4710561
 */
