@@ -275,6 +275,30 @@ if (!isEmojiSupported(thinkingEmoji)) {
 /*
 Adapted from code by @mwunsch at https://gist.github.com/mwunsch/4710561
 */
+var smilingEmoji = 0x1F604;
+
+function isSmileSupported() {
+    if (!document.createElement('canvas').getContext) return false;
+
+    if (!isEmojiSupported.canvas) {
+        isEmojiSupported.canvas = document.createElement('canvas');
+        isEmojiSupported.context = isEmojiSupported.canvas.getContext('2d');        
+    }
+
+    isEmojiSupported.context.clearRect(
+        0,
+        0,
+        isEmojiSupported.canvas.width,
+        isEmojiSupported.canvas.height
+    );
+
+    if (typeof isEmojiSupported.context.fillText != 'function') return false;
+
+    isEmojiSupported.context.textBaseline = "top";
+    isEmojiSupported.context.font = "32px Arial";
+    isEmojiSupported.context.fillText(String.fromCodePoint(smilingEmoji), 0, 0);
+    return isEmojiSupported.context.getImageData(16, 16, 1, 1).data[0] !== 0;
+}
 
 function isEmojiSupported(code) {
     var emojiToTest;
@@ -282,7 +306,7 @@ function isEmojiSupported(code) {
     // This test will not work if they can't use canvas.
     // They probably don't support emoji.
 
-    if (firefox) {
+    if (firefox || !isSmileSupported()) {
         // Firefox doesn't support canvas emoji stuff so we should assume it will work.
         return true;
     }
