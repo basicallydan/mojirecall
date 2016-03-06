@@ -225,16 +225,20 @@ function nextStage() {
 	$recallSelection.empty();
 	$startRecallForm.addClass('hidden');
 
-	delay(showInstructionHTML, 0, '3');
-	delay(showInstructionHTML, 1000, '2');
-	delay(showInstructionHTML, 2000, '1');
-	delay(showInstructionHTML, 3000, 'GO!');
+	delay(showInstructionHTML, 0, '<span class="large-central-instruction">3</span>');
+	delay(showInstructionHTML, 1000, '<span class="large-central-instruction">2</span>');
+	delay(showInstructionHTML, 2000, '<span class="large-central-instruction">1</span>');
+	delay(showInstructionHTML, 3000, '<span class="large-central-instruction">GO!</span>');
 
 	forEach(round.stage, function (moji, index) {
-		delay(showInstructionHTML, 3000 + (index * 1000), moji);
+		delay(
+			showInstructionHTML,
+			3000 + (index * 1000),
+			'<span class="emoji emoji-flash">' + moji + '</a>'
+		);
 	});
 
-	delay(showInstructionHTML, 3000 + (round.stage.length * 1000), 'Done.');
+	delay(showInstructionHTML, 3000 + (round.stage.length * 1000), '<span class="large-central-instruction">Done.</span>');
 	delay(showChoices, 3000 + ((round.stage.length + 1) * 1000));
 }
 

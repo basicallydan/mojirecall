@@ -42,6 +42,17 @@ html {
 	border-radius:0.2rem;
 }
 
+/* Memorising part */
+.large-central-instruction {
+	height:20vmin;
+	line-height:20vmin;
+	vertical-align:center;
+	font-size:15vmin;
+}
+.emoji-flash {
+	font-size:20vmin;
+}
+
 /* Choices bit */
 
 .current-test {
@@ -67,6 +78,7 @@ html {
 	border-radius:0.2rem;
 	box-sizing: border-box;
 	border:1px solid transparent;
+	font-size:10vmin;
 }
 
 .emoji-choice:hover {
