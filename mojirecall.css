@@ -50,14 +50,14 @@ div {
 /* Memorising part */
 
 .large-central-instruction {
-	height:20vmin;
-	line-height:20vmin;
+	height:100px;
+	line-height:100px;
 	vertical-align:center;
-	font-size:15vmin;
+	font-size:80px;
 }
 
 .emoji-flash {
-	font-size:20vmin;
+	font-size:100px;
 }
 
 .correct-message {
