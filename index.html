@@ -27,12 +27,13 @@
 		<div id="currentRoundResult" class="hidden">
 			<div class="correct-message">Right! Well done.</div>
 			<button class="xlarge-cta" id="nextRoundButton">Next round</button>
-			<div class="hidden">
-				<h4>How did you remember this? How did you describe the series of Emoji to yourself?</h4>
-				<input id="storyInput" type="text" />
-				<input type="checkbox" id="noStoryCheckbox" /><label for="noStoryCheckbox">Check here if you'll never want to do this</label>
-				<button id="submitStory">Send, then next round</button>
-			</div>
+		</div>
+		<div id="storyForm" class="hidden cf">
+			<h4>How did you remember this? How did you describe the series of Emoji to yourself?</h4>
+			<input id="storyInput" class="form-element-full" type="text" />
+			<!-- <input type="checkbox" id="noStoryCheckbox" /><label for="noStoryCheckbox">Check here if you'll never want to do this</label> -->
+			<button class="large-cta pull-right" id="submitStory">Submit, then next round.</button>
+			<button class="large-cta large-cta-secondary pull-right" id="noStoryNextRoundButton">Nope! Next round please.</button>
 		</div>
 	</div>
 	<div id="instructions" class="large-central-message"></div>

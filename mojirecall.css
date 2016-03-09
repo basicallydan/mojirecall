@@ -33,9 +33,29 @@ div {
 	margin:1rem auto;
 }
 
+/* Forms */
+
 .cta-block {
 	display: block;
 	cursor:pointer;
+}
+
+.large-cta {
+	font-size:1.2rem;
+	padding:1rem;
+	border:none;
+	background-color:#60b044;
+	color:#fff;
+	border-radius:0.2rem;
+}
+
+.large-cta-secondary {
+	font-size:1.2rem;
+	padding:1rem;
+	border:none;
+	background-color:#eee;
+	color:#3E3E3E;
+	border-radius:0.2rem;
 }
 
 .xlarge-cta {
@@ -45,6 +65,24 @@ div {
 	background-color:#60b044;
 	color:#fff;
 	border-radius:0.2rem;
+}
+
+.pull-right {
+	float:right;
+}
+
+.large-cta.pull-right {
+	margin-left:1rem;
+}
+
+.form-element-full {
+	border:2px solid #3E3E3E;
+	border-radius:0.2rem;
+	font-size:1.2rem;
+	width:100%;
+	padding:0.5rem 1rem;
+	box-sizing: border-box;
+	margin:0 0 1rem 0;
 }
 
 /* Memorising part */
@@ -119,4 +157,33 @@ div {
 
     /* This should have regular text in it */
     color:#efefef;
+}
+
+
+/* CLEARFIX */
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
 }

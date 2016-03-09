@@ -13,6 +13,7 @@ allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange]);
 function Game() {
 	var currentRoundNumber = 0;
 	var startingRecallCount = 2;
+	this.askStoriesAfterRecallCount = 3;
 	this.recallCount = startingRecallCount;
 	// At the end of each round, the information about the round is put into
 	// this array. Not before.
@@ -30,7 +31,7 @@ function Game() {
 			stage: stage,
 			answer: [],
 			startTime: Date()
-		}
+		};
 
 		return this.currentRound;
 	}, this);
@@ -43,7 +44,7 @@ Game.prototype.finishCurrentRound = function () {
 	this.rounds.push(this.currentRound);
 	this.currentRound = [];
 	this.recallCount += 1;
-}
+};
 
 module.exports = Game;
 
@@ -99,6 +100,8 @@ var recallSelection = document.getElementById('recallSelection');
 var currentTestPanel = document.getElementById('currentTestPanel');
 var currentRoundResult = document.getElementById('currentRoundResult');
 var nextRoundButton = document.getElementById('nextRoundButton');
+var noStoryNextRoundButton = document.getElementById('noStoryNextRoundButton');
+var storyForm = document.getElementById('storyForm');
 
 var $startRecallForm = bonzo(startRecallForm);
 var $instructionPanel = bonzo(instructionPanel);
@@ -109,7 +112,7 @@ var $recallChoices = bonzo(recallChoices);
 var $recallSelection = bonzo(recallSelection);
 var $currentTestPanel = bonzo(currentTestPanel);
 var $currentRoundResult = bonzo(currentRoundResult);
-var $nextRoundButton = bonzo(nextRoundButton);
+var $storyForm = bonzo(storyForm);
 
 function resetUI() {
 	$resultsPanel.addClass('hidden');
@@ -180,6 +183,10 @@ function removeSelection() {
 	}
 }
 
+function showStoryForm() {
+	$storyForm.removeClass('hidden');
+}
+
 function showCorrectMessage() {
 	$currentRoundResult.removeClass('hidden');
 }
@@ -190,7 +197,11 @@ function verifyChoices() {
 		currentGame.finishCurrentRound();
 
 		if (difference(round.answer, round.stage).length === 0) {
-			showCorrectMessage();
+			if (round.recallCount >= currentGame.askStoriesAfterRecallCount) {
+				showStoryForm();
+			} else {
+				showCorrectMessage();
+			}
 		} else {
 			alert('Nope. You were shown:\n' + round.stage.join(' ') + '\nBut your answer was:\n' + round.answer.join(' ') + '\n\nBetter luck next time.');
 			showGameOver();
@@ -238,6 +249,7 @@ function nextStage() {
 	$recallSelection.empty();
 	$startRecallForm.addClass('hidden');
 	$currentRoundResult.addClass('hidden');
+	$storyForm.addClass('hidden');
 
 	delay(showInstructionHTML, 0, '<span class="large-central-instruction">3</span>');
 	delay(showInstructionHTML, 1000, '<span class="large-central-instruction">2</span>');
@@ -264,6 +276,10 @@ startRecallExperiment.addEventListener('click', function() {
 }, false);
 
 nextRoundButton.addEventListener('click', function() {
+	nextStage();
+}, false);
+
+noStoryNextRoundButton.addEventListener('click', function() {
 	nextStage();
 }, false);
 
