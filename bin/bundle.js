@@ -1,4 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
 var bind = require('lodash/bind');
 var sampleSize = require('lodash/sampleSize');
 
@@ -8,7 +10,7 @@ var transportMapsRange = [0x1F680, 0x1F6C0];
 var tailRange = [0x2668, 0xF5FF];
 var thinkingEmoji = 0x1F914;
 
-allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange]);
+var allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange]);
 
 function Game() {
 	var currentRoundNumber = 0;
@@ -49,6 +51,8 @@ Game.prototype.finishCurrentRound = function () {
 module.exports = Game;
 
 },{"./createEmojiArray":2,"lodash/bind":98,"lodash/sampleSize":120}],2:[function(require,module,exports){
+'use strict';
+
 var isEmojiSupported = require('./isEmojiSupported');
 
 module.exports = function (ranges) {
@@ -70,8 +74,11 @@ module.exports = function (ranges) {
 	}
 
 	return emoji;
-}
+};
+
 },{"./isEmojiSupported":4}],3:[function(require,module,exports){
+'use strict';
+
 var delay = require('lodash/delay');
 var difference = require('lodash/difference');
 var pull = require('lodash/pull');
@@ -130,13 +137,7 @@ function showGameOver() {
 	$resultsSummary.text('The best you can recall is ' + (currentGame.recallCount - 1));
 
 	for (h = 0; h < currentGame.rounds.length; h++) {
-		$roundResults.append(
-			'<h3>Round ' + (h + 1) + '</h3>' +
-			'<h4>You were shown:</h4>' +
-			'<div class="emoji-list">' + currentGame.rounds[h].stage.join(' ') + '</div>' +
-			'<h4>You answered:</h4>' +
-			'<div class="emoji-list">' + currentGame.rounds[h].answer.join(' ') + '</div>'
-		);
+		$roundResults.append('<h3>Round ' + (h + 2) + ' </h3>' + '<h4>You were shown:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].answer.join(' ') + '</div>'));
 	}
 
 	games.push(currentGame);
@@ -228,7 +229,7 @@ function showChoices() {
 		bonzo(choiceButton).addClass('emoji emoji-choice');
 		bonzo(choiceButton).text(currentGame.currentRound.choices[m]);
 		// TODO: Unbind these puppies
-		choiceButton.addEventListener('click', function() {
+		choiceButton.addEventListener('click', function () {
 			var emojiText = bonzo(this).text();
 			addSelection(emojiText);
 			verifyChoices();
@@ -257,29 +258,23 @@ function nextStage() {
 	delay(showInstructionHTML, 3000, '<span class="large-central-instruction">GO!</span>');
 
 	forEach(round.stage, function (moji, index) {
-		delay(
-			showInstructionHTML,
-			3000 + (index * 1000),
-			'<span class="emoji emoji-flash">' + moji + '</a>'
-		);
+		delay(showInstructionHTML, 3000 + index * 1000, '<span class="emoji emoji-flash">' + moji + '</a>');
 	});
 
-	delay(showInstructionHTML, 3000 + (round.stage.length * 1000), '<span class="large-central-instruction">Done.</span>');
-	delay(showChoices, 3000 + ((round.stage.length + 1) * 1000));
+	delay(showInstructionHTML, 3000 + round.stage.length * 1000, '<span class="large-central-instruction">Done.</span>');
+	delay(showChoices, 3000 + (round.stage.length + 1) * 1000);
 }
 
-tests = [];
-
-startRecallExperiment.addEventListener('click', function() {
+startRecallExperiment.addEventListener('click', function () {
 	currentGame = new Game();
 	nextStage();
 }, false);
 
-nextRoundButton.addEventListener('click', function() {
+nextRoundButton.addEventListener('click', function () {
 	nextStage();
 }, false);
 
-noStoryNextRoundButton.addEventListener('click', function() {
+noStoryNextRoundButton.addEventListener('click', function () {
 	nextStage();
 }, false);
 
@@ -288,6 +283,8 @@ if (!isEmojiSupported(thinkingEmoji)) {
 }
 
 },{"./Game":1,"./isEmojiSupported":4,"bonzo":5,"lodash/delay":99,"lodash/difference":100,"lodash/forEach":102,"lodash/pull":117}],4:[function(require,module,exports){
+'use strict';
+
 /*
 Adapted from code by @mwunsch at https://gist.github.com/mwunsch/4710561
 
@@ -305,15 +302,10 @@ function isSmileSupported() {
 
     if (!isEmojiSupported.canvas) {
         isEmojiSupported.canvas = document.createElement('canvas');
-        isEmojiSupported.context = isEmojiSupported.canvas.getContext('2d');        
+        isEmojiSupported.context = isEmojiSupported.canvas.getContext('2d');
     }
 
-    isEmojiSupported.context.clearRect(
-        0,
-        0,
-        isEmojiSupported.canvas.width,
-        isEmojiSupported.canvas.height
-    );
+    isEmojiSupported.context.clearRect(0, 0, isEmojiSupported.canvas.width, isEmojiSupported.canvas.height);
 
     if (typeof isEmojiSupported.context.fillText != 'function') return false;
 
@@ -338,15 +330,10 @@ function isEmojiSupported(code) {
 
     if (!isEmojiSupported.canvas) {
         isEmojiSupported.canvas = document.createElement('canvas');
-        isEmojiSupported.context = isEmojiSupported.canvas.getContext('2d');        
+        isEmojiSupported.context = isEmojiSupported.canvas.getContext('2d');
     }
 
-    isEmojiSupported.context.clearRect(
-        0,
-        0,
-        isEmojiSupported.canvas.width,
-        isEmojiSupported.canvas.height
-    );
+    isEmojiSupported.context.clearRect(0, 0, isEmojiSupported.canvas.width, isEmojiSupported.canvas.height);
 
     if (typeof isEmojiSupported.context.fillText != 'function') return false;
 
@@ -359,6 +346,7 @@ function isEmojiSupported(code) {
 }
 
 module.exports = isEmojiSupported;
+
 },{}],5:[function(require,module,exports){
 /*!
   * Bonzo: DOM Utility (c) Dustin Diaz 2012
