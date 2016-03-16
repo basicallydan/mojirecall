@@ -47,6 +47,7 @@ div {
 	background-color:#60b044;
 	color:#fff;
 	border-radius:0.2rem;
+	cursor: pointer;
 }
 
 .large-cta-secondary {
@@ -56,6 +57,7 @@ div {
 	background-color:#eee;
 	color:#3E3E3E;
 	border-radius:0.2rem;
+	cursor: pointer;
 }
 
 .xlarge-cta {
@@ -65,6 +67,7 @@ div {
 	background-color:#60b044;
 	color:#fff;
 	border-radius:0.2rem;
+	cursor: pointer;
 }
 
 .pull-right {
