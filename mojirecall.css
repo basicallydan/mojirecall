@@ -78,6 +78,12 @@ div {
 	margin-left:1rem;
 }
 
+.label-full {
+	display:block;
+	margin:0 0 1rem 0;
+	font-weight:bold;
+}
+
 .form-element-full {
 	border:2px solid #3E3E3E;
 	border-radius:0.2rem;
