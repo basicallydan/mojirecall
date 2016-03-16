@@ -20,6 +20,7 @@
     "bonzo": "^2.0.0",
     "browserify": "^13.0.0",
     "chibijs": "^3.0.7",
+    "firebase": "^2.4.1",
     "lodash": "^4.6.1",
     "request": "^2.69.0",
     "watchify": "^3.7.0"
