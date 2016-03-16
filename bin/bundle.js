@@ -292,7 +292,7 @@ submitStoryButton.addEventListener('click', function () {
 	var round = currentGame.currentRound;
 	var data = {
 		story: $storyInputContent.val(),
-		round: round.stage
+		round: round.stage.join('')
 	};
 	if ($storyInputAuthor.val()) {
 		data.twitter = $storyInputAuthor.val();
