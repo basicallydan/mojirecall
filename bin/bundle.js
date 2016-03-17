@@ -139,7 +139,8 @@ var startRecallExperiment = document.getElementById('startRecallExperiment');
 var startRecallForm = document.getElementById('startRecallForm');
 var instructionPanel = document.getElementById('instructions');
 var resultsPanel = document.getElementById('resultsPanel');
-var tryAgainButton = document.getElementById('tryAgain');
+var tryAgainTopButton = document.getElementById('tryAgainTop');
+var tryAgainBottomButton = document.getElementById('tryAgainBottom');
 var resultsSummary = document.getElementById('resultsSummary');
 var roundResults = document.getElementById('roundResults');
 var recallChoices = document.getElementById('recallChoices');
@@ -193,7 +194,8 @@ function showGameOver() {
 
 	games.push(currentGame);
 
-	tryAgainButton.addEventListener('click', resetUI, false);
+	tryAgainTopButton.addEventListener('click', resetUI, false);
+	tryAgainBottomButton.addEventListener('click', resetUI, false);
 	$instructionPanel.addClass('hidden');
 	$resultsPanel.removeClass('hidden');
 	$currentTestPanel.addClass('hidden');
