@@ -11,12 +11,12 @@ var tailRange = [0x2668, 0x3299];
 var tailRange2 = [0x1F004, 0x1F5FF];
 var thinkingEmoji = 0x1F914;
 
-var allEmoji = require('./createEmojiArray')([emoticonsRange, dingbatsRange, transportMapsRange, tailRange, tailRange2]);
+var allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange, tailRange, tailRange2]);
 
 function Game() {
 	var currentRoundNumber = 0;
 	var startingRecallCount = 2;
-	this.askStoriesAfterRecallCount = 3;
+	this.askStoriesAfterRecallCount = 2;
 	this.recallCount = startingRecallCount;
 	// At the end of each round, the information about the round is put into
 	// this array. Not before.
@@ -84,7 +84,7 @@ var request = require('request');
 var url = require('url');
 
 function GetAPI(baseURL) {
-	self.baseURL = baseURL;
+	this.baseURL = baseURL;
 }
 
 GetAPI.prototype.child = function (childName) {
@@ -112,7 +112,7 @@ var forEach = require('lodash/forEach');
 var bonzo = require('bonzo');
 var GetAPI = require('./getapi');
 
-var database = new GetAPI('https://mojirecall.getapi.dev:3030');
+var database = new GetAPI('https://mojirecall.getapi.co');
 var dataStore = database.child('moji-stories');
 
 var thinkingEmoji = 0x1F914;
