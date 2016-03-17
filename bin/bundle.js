@@ -101,7 +101,7 @@ GetAPI.prototype.child = function (childName) {
 	return {
 		push: function (data) {
 			// Gotta make sure there's a slash at the end for a collection
-			var collectionURL = url.resolve(this.baseURL, childName).replace(/([^\/]{1}$)/g, '$1/');
+			var collectionURL = url.resolve(this.baseURL, '/s/' + childName).replace(/([^\/]{1}$)/g, '$1/');
 			request.post({
 				url: collectionURL,
 				json: data
@@ -150,6 +150,9 @@ var nextRoundButton = document.getElementById('nextRoundButton');
 var storyForm = document.getElementById('storyForm');
 var storyInputAuthor = document.getElementById('storyInputAuthor');
 var storyInputContent = document.getElementById('storyInputContent');
+var finalRoundResults = document.getElementById('finalRoundResults');
+var failedRoundResult = document.getElementById('failedRoundResult');
+var showFullResults = document.getElementById('showFullResults');
 
 var $startRecallForm = bonzo(startRecallForm);
 var $instructionPanel = bonzo(instructionPanel);
@@ -163,10 +166,14 @@ var $currentRoundResult = bonzo(currentRoundResult);
 var $storyForm = bonzo(storyForm);
 var $storyInputAuthor = bonzo(storyInputAuthor);
 var $storyInputContent = bonzo(storyInputContent);
+var $finalRoundResults = bonzo(finalRoundResults);
+var $failedRoundResult = bonzo(failedRoundResult);
 
 function resetUI() {
 	$resultsPanel.addClass('hidden');
 	$instructionPanel.addClass('hidden');
+	$failedRoundResult.addClass('hidden');
+	$finalRoundResults.html('');
 	$startRecallForm.removeClass('hidden');
 }
 
@@ -212,7 +219,7 @@ function addSelection(emojiText) {
 
 function removeSelection() {
 	var round = currentGame.currentRound;
-	$this = bonzo(this);
+	var $this = bonzo(this);
 
 	pull(round.answer, $this.text());
 
@@ -236,6 +243,12 @@ function showCorrectMessage() {
 	$currentRoundResult.removeClass('hidden');
 }
 
+function showIncorrectMessage() {
+	var round = currentGame.currentRound;
+	$finalRoundResults.html('<div class="round-result">' + ('<h3>You got to round ' + currentGame.currentRoundNumber + '!</h3>') + '<h4>You were shown:</h4>' + ('<div class="emoji-list">' + round.stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="emoji-list">' + round.answer.join(' ') + '</div>') + '</div>');
+	$failedRoundResult.removeClass('hidden');
+}
+
 function verifyChoices() {
 	var round = currentGame.currentRound;
 	if (round.answer.length === currentGame.recallCount) {
@@ -245,8 +258,7 @@ function verifyChoices() {
 				showStoryForm();
 			}
 		} else {
-			alert('Nope. You were shown:\n' + round.stage.join(' ') + '\nBut your answer was:\n' + round.answer.join(' ') + '\n\nBetter luck next time.');
-			showGameOver();
+			showIncorrectMessage();
 		}
 	}
 }
@@ -371,6 +383,8 @@ function saveAndGoToNextRound() {
 }
 
 nextRoundButton.addEventListener('click', saveAndGoToNextRound, false);
+
+showFullResults.addEventListener('click', showGameOver, false);
 
 document.body.onkeyup = function (e) {
 	if (e.keyCode == 32) {

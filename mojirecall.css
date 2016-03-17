@@ -142,6 +142,11 @@ div {
 	font-size:1.5rem;
 }
 
+.incorrect-message {
+	color:#B63933;
+	font-size:1.5rem;
+}
+
 /* Choices bit */
 
 .current-test {
