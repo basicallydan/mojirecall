@@ -198,6 +198,15 @@ div {
     color:#efefef;
 }
 
+/* Results stuff */
+
+.round-result {
+	box-sizing:border-box;
+	width:100%;
+	border-radius:0.2rem;
+	margin-bottom:2rem;
+	border:1px solid #aaa;
+}
 
 /* CLEARFIX */
 /**

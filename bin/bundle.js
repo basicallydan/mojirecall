@@ -177,10 +177,11 @@ function showInstructionHTML(text) {
 
 function showGameOver() {
 	var h = 0;
+	currentGame.finishCurrentRound();
 	$resultsSummary.text('The best you can recall is ' + (currentGame.recallCount - 1));
 
 	for (h = 0; h < currentGame.rounds.length; h++) {
-		$roundResults.append('<h3>Round ' + (h + 2) + ' </h3>' + '<h4>You were shown:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].answer.join(' ') + '</div>'));
+		$roundResults.append('<div class="round-result">' + ('<h3>Round ' + (h + 1) + ' </h3>') + '<h4>You were shown:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].answer.join(' ') + '</div>') + '</div>');
 	}
 
 	games.push(currentGame);
