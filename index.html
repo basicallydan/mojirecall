@@ -4,6 +4,7 @@
 	<meta charset="utf-8" />
 	<title>Emoji Recall</title>
 	<link rel="stylesheet" type="text/css" href="mojirecall.css">
+	<link rel="stylesheet" type="text/css" href="keys.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -26,16 +27,21 @@
 		<div class="emoji-list" id="recallSelection"></div>
 		<div id="currentRoundResult" class="hidden">
 			<div class="correct-message">Right! Well done.</div>
+			<div id="storyForm" class="hidden cf">
+				<h4>Before you go onto the next round...</h4>
+				<p>Did you use any word sequences or mini stories to remember the emoji? If so, we'd like to hear about it.</p>
+				<div class="column-form-group">
+					<div class="form-group-col">
+						<label class="label-full" for="storyInputAuthor">What's your Twitter handle?</label>
+						<input id="storyInputAuthor" class="form-element-full" type="text" />
+					</div>
+					<div class="form-group-col form-group-col-last">
+						<label class="label-full" for="storyInputContent">How'd you do it? (max 120 chars)</label>
+						<input id="storyInputContent" placeholder="e.g. The happy cat drove to the hospital" class="form-element-full" maxlength="120" type="text" />
+					</div>
+				</div>
+			</div>
 			<button class="xlarge-cta" id="nextRoundButton">Next round</button>
-		</div>
-		<div id="storyForm" class="hidden cf">
-			<h4>How did you remember this? How did you describe the series of Emoji to yourself?</h4>
-			<label class="label-full" for="storyInputAuthor">What's your Twitter handle, so we can credit you? (optional)</label>
-			<input id="storyInputAuthor" class="form-element-full" type="text" />
-			<label class="label-full" for="storyInputContent">Write down what words you used to remember it, if any (max 120 chars)</label>
-			<input id="storyInputContent" placeholder="e.g. The happy cat drove to the hospital" class="form-element-full" maxlength="120" type="text" />
-			<button class="large-cta pull-right" id="submitStoryButton">Submit, then next round.</button>
-			<button class="large-cta large-cta-secondary pull-right" id="noStoryNextRoundButton">Nope! Next round please.</button>
 		</div>
 	</div>
 	<div id="instructions" class="large-central-message"></div>

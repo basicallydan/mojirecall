@@ -11,13 +11,13 @@ var tailRange = [0x2668, 0x3299];
 var tailRange2 = [0x1F004, 0x1F5FF];
 var thinkingEmoji = 0x1F914;
 
-var allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange, tailRange, tailRange2]);
+var allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange]);
 
 function Game() {
-	var currentRoundNumber = 0;
 	var startingRecallCount = 2;
-	this.askStoriesAfterRecallCount = 2;
+	this.askStoriesAfterRecallCount = 3;
 	this.recallCount = startingRecallCount;
+	this.currentRoundNumber = 0;
 	// At the end of each round, the information about the round is put into
 	// this array. Not before.
 	this.rounds = [];
@@ -26,6 +26,7 @@ function Game() {
 		var numberOfChoices = Math.min(this.recallCount * 5, allEmoji.length);
 		var choices = sampleSize(allEmoji, numberOfChoices);
 		var stage = sampleSize(choices, this.recallCount);
+		++this.currentRoundNumber;
 
 		this.currentRound = {
 			numberOfChoices: numberOfChoices,
@@ -33,8 +34,17 @@ function Game() {
 			choices: choices,
 			stage: stage,
 			answer: [],
-			startTime: Date()
+			startTime: Date(),
+			stageCounter: 0,
+			allShown: false
 		};
+
+		this.currentRound.getNextEmoji = function () {
+			if (!this.stage[this.stageCounter]) {
+				this.allShown = true;
+			}
+			return this.stage[this.stageCounter++];
+		}.bind(this.currentRound);
 
 		return this.currentRound;
 	}, this);
@@ -112,7 +122,7 @@ var forEach = require('lodash/forEach');
 var bonzo = require('bonzo');
 var GetAPI = require('./getapi');
 
-var database = new GetAPI('https://mojirecall.getapi.co');
+var database = new GetAPI('http://mojirecall.getapi.dev:3030');
 var dataStore = database.child('moji-stories');
 
 var thinkingEmoji = 0x1F914;
@@ -137,8 +147,6 @@ var recallSelection = document.getElementById('recallSelection');
 var currentTestPanel = document.getElementById('currentTestPanel');
 var currentRoundResult = document.getElementById('currentRoundResult');
 var nextRoundButton = document.getElementById('nextRoundButton');
-var noStoryNextRoundButton = document.getElementById('noStoryNextRoundButton');
-var submitStoryButton = document.getElementById('submitStoryButton');
 var storyForm = document.getElementById('storyForm');
 var storyInputAuthor = document.getElementById('storyInputAuthor');
 var storyInputContent = document.getElementById('storyInputContent');
@@ -231,10 +239,9 @@ function verifyChoices() {
 	var round = currentGame.currentRound;
 	if (round.answer.length === currentGame.recallCount) {
 		if (difference(round.answer, round.stage).length === 0) {
+			showCorrectMessage();
 			if (round.recallCount >= currentGame.askStoriesAfterRecallCount) {
 				showStoryForm();
-			} else {
-				showCorrectMessage();
 			}
 		} else {
 			alert('Nope. You were shown:\n' + round.stage.join(' ') + '\nBut your answer was:\n' + round.answer.join(' ') + '\n\nBetter luck next time.');
@@ -275,7 +282,7 @@ function showChoices() {
 }
 
 function nextStage() {
-	var round = currentGame.generateRound();
+	currentGame.generateRound();
 
 	// Reset for the next level
 	$currentTestPanel.addClass('hidden');
@@ -286,47 +293,91 @@ function nextStage() {
 	$storyForm.addClass('hidden');
 	$storyInputContent.val('');
 
-	delay(showInstructionHTML, 0, '<span class="large-central-instruction">3</span>');
-	delay(showInstructionHTML, 1000, '<span class="large-central-instruction">2</span>');
-	delay(showInstructionHTML, 2000, '<span class="large-central-instruction">1</span>');
-	delay(showInstructionHTML, 3000, '<span class="large-central-instruction">GO!</span>');
+	var start = '<span class="large-central-instruction">Round ' + currentGame.currentRoundNumber + '</span>';
+	start += '\n<span class="medium-central-instruction">Hit <kbd>spacebar</kbd> to start</span>';
 
-	forEach(round.stage, function (moji, index) {
-		delay(showInstructionHTML, 3000 + index * 1000, '<span class="emoji emoji-flash">' + moji + '</a>');
-	});
+	showInstructionHTML(start);
 
-	delay(showInstructionHTML, 3000 + round.stage.length * 1000, '<span class="large-central-instruction">Done.</span>');
-	delay(showChoices, 3000 + (round.stage.length + 1) * 1000);
+	// delay(showInstructionHTML, 3000, '<span class="large-central-instruction">GO!</span>');
+
+	// forEach(round.stage, function (moji, index) {
+	// 	delay(
+	// 		showInstructionHTML,
+	// 		3000 + (index * 1000),
+	// 		'<span class="emoji emoji-flash">' + moji + '</a>'
+	// 	);
+	// });
+
+	// delay(showInstructionHTML, 3000 + (round.stage.length * 1000), '<span class="large-central-instruction">Done.</span>');
+	// delay(showChoices, 3000 + ((round.stage.length + 1) * 1000));
 }
 
-startRecallExperiment.addEventListener('click', function () {
+function handleSpacebar() {
+	if (!currentGame) {
+		return startGame();
+	}
+
+	var round = currentGame.currentRound;
+
+	if (round.allShown) return true;
+
+	var moji = round.getNextEmoji();
+
+	if (moji) {
+		showInstructionHTML('<span class="emoji emoji-flash">' + moji + '</a>');
+	} else {
+		showChoices();
+	}
+
+	return false;
+}
+
+function handleReturn() {
+	if (!currentGame) {
+		return true;
+	}
+
+	if (document.activeElement === storyInputAuthor || document.activeElement === storyInputContent) {
+		saveAndGoToNextRound();
+		return false;
+	}
+
+	return true;
+}
+
+function startGame() {
 	currentGame = new Game();
 	nextStage();
-}, false);
+}
 
-nextRoundButton.addEventListener('click', function () {
-	currentGame.finishCurrentRound();
-	nextStage();
-}, false);
+startRecallExperiment.addEventListener('click', startGame, false);
 
-noStoryNextRoundButton.addEventListener('click', function () {
-	currentGame.finishCurrentRound();
-	nextStage();
-}, false);
-
-submitStoryButton.addEventListener('click', function () {
+function saveAndGoToNextRound() {
 	var round = currentGame.currentRound;
-	var data = {
-		story: $storyInputContent.val(),
-		round: round.stage.join('')
-	};
-	if ($storyInputAuthor.val()) {
-		data.twitter = $storyInputAuthor.val();
+	var storyContent = $storyInputContent.val().trim();
+	if (storyContent) {
+		var data = {
+			story: storyContent,
+			round: round.stage.join('')
+		};
+		if ($storyInputAuthor.val()) {
+			data.twitter = $storyInputAuthor.val();
+		}
+		dataStore.push(data);
 	}
-	dataStore.push(data);
 	currentGame.finishCurrentRound();
 	nextStage();
-}, false);
+}
+
+nextRoundButton.addEventListener('click', saveAndGoToNextRound, false);
+
+document.body.onkeyup = function (e) {
+	if (e.keyCode == 32) {
+		handleSpacebar(e);
+	} else if (e.keyCode == 13) {
+		handleReturn(e);
+	}
+};
 
 if (!isEmojiSupported(thinkingEmoji)) {
 	bonzo(document.getElementById('emojiThinkingHeader')).remove();
