@@ -33,6 +33,15 @@ div {
 	margin:1rem auto;
 }
 
+.hint-below-emoji {
+	font-size:1.2rem;
+	display:block;
+}
+
+.hint-below-emoji.hidden {
+	display:none;
+}
+
 /* Forms */
 
 .cta-block {
