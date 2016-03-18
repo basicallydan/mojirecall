@@ -3,7 +3,7 @@
 How many Emoji can you recall from memory?
 
 This is very much a work in progress, so plz don't share it. If you wanna get
-updates on progress, subscribe to the repo :+1:
+updates on progress, subscribe to the repo :+1: :+1:
 
 ## Thanks to
 
