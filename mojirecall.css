@@ -1,3 +1,10 @@
+/* Font for when your platform doesn't support Emoji fully */
+@font-face {
+  font-family: 'OpenSansEmoji';
+  src: url('OpenSansEmoji.otf') format('opentype'), /* Pretty Modern Browsers */
+       url('OpenSansEmoji.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
 html {
 	font-family:"Helvetica Neue", Helvetica, Arial, Calibri, sans-serif;
 }
@@ -8,6 +15,10 @@ div {
 
 .emoji {
 	font-weight:normal;
+}
+
+.emoji.accessible {
+	font-family: 'OpenSansEmoji';
 }
 
 .main-heading {
@@ -166,6 +177,10 @@ div {
 
 .emoji-list {
 	font-size:1.5rem;
+}
+
+.emoji-list.accessible {
+	font-family: 'OpenSansEmoji';
 }
 
 .emoji-choice,.emoji-selection,.emoji-selection-empty {

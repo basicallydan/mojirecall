@@ -50,12 +50,15 @@ function Game() {
 	}, this);
 }
 
-Game.prototype.finishCurrentRound = function () {
+Game.prototype.finishCurrentRound = function (callback) {
 	var timeTaken = Date() - this.currentRound.startTime;
 
 	this.currentRound.timeTaken = timeTaken;
+	if (callback) {
+		callback(this.currentRound);
+	}
 	this.rounds.push(this.currentRound);
-	this.currentRound = [];
+	this.currentRound = null;
 	this.recallCount += 1;
 };
 
@@ -121,6 +124,9 @@ var pull = require('lodash/pull');
 var forEach = require('lodash/forEach');
 var bonzo = require('bonzo');
 var GetAPI = require('./getapi');
+var useOpenSansEmoji = false;
+var emojiClass = 'emoji';
+var emojiListClass = 'emoji-list';
 
 var database = new GetAPI('https://mojirecall.getapi.co');
 var dataStore = database.child('moji-stories');
@@ -132,6 +138,7 @@ var isEmojiSupported = require('./isEmojiSupported');
 var timeChoicesShown;
 var currentGame;
 var games = [];
+var spacebarTimeout;
 
 var Game = require('./Game');
 
@@ -189,7 +196,7 @@ function showGameOver() {
 	$resultsSummary.text('The best you can recall is ' + (currentGame.recallCount - 1));
 
 	for (h = 0; h < currentGame.rounds.length; h++) {
-		$roundResults.append('<div class="round-result">' + ('<h3>Round ' + (h + 1) + ' </h3>') + '<h4>You were shown:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="emoji-list">' + currentGame.rounds[h].answer.join(' ') + '</div>') + '</div>');
+		$roundResults.append('<div class="round-result">' + ('<h3>Round ' + (h + 1) + ' </h3>') + '<h4>You were shown:</h4>' + ('<div class="' + emojiListClass + '">' + currentGame.rounds[h].stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="' + emojiListClass + '">' + currentGame.rounds[h].answer.join(' ') + '</div>') + '</div>');
 	}
 
 	games.push(currentGame);
@@ -242,12 +249,13 @@ function showStoryForm() {
 }
 
 function showCorrectMessage() {
+	currentGame.finishCurrentRound();
 	$currentRoundResult.removeClass('hidden');
 }
 
 function showIncorrectMessage() {
 	var round = currentGame.currentRound;
-	$finalRoundResults.html('<div class="round-result">' + ('<h3>You got to round ' + currentGame.currentRoundNumber + '!</h3>') + '<h4>You were shown:</h4>' + ('<div class="emoji-list">' + round.stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="emoji-list">' + round.answer.join(' ') + '</div>') + '</div>');
+	$finalRoundResults.html('<div class="round-result">' + ('<h3>You got to round ' + currentGame.currentRoundNumber + '!</h3>') + '<h4>You were shown:</h4>' + ('<div class="' + emojiListClass + '">' + round.stage.join(' ') + '</div>') + '<h4>You answered:</h4>' + ('<div class="' + emojiListClass + '">' + round.answer.join(' ') + '</div>') + '</div>');
 	$failedRoundResult.removeClass('hidden');
 }
 
@@ -274,14 +282,14 @@ function showChoices() {
 
 	for (b = 0; b < currentGame.recallCount; b++) {
 		emptySelection = document.createElement('span');
-		bonzo(emptySelection).addClass('emoji emoji-selection-empty');
+		bonzo(emptySelection).addClass(emojiClass + ' emoji-selection-empty');
 		bonzo(emptySelection).text('?');
 		$recallSelection.append(emptySelection);
 	}
 
 	for (m = currentGame.currentRound.choices.length - 1; m >= 0; m--) {
 		choiceButton = document.createElement('a');
-		bonzo(choiceButton).addClass('emoji emoji-choice');
+		bonzo(choiceButton).addClass(emojiClass + ' emoji-choice');
 		bonzo(choiceButton).text(currentGame.currentRound.choices[m]);
 		// TODO: Unbind these puppies
 		choiceButton.addEventListener('click', function () {
@@ -312,25 +320,19 @@ function nextStage() {
 	start += '\n<span class="medium-central-instruction">Hit <kbd>spacebar</kbd> to start</span>';
 
 	showInstructionHTML(start);
-
-	// delay(showInstructionHTML, 3000, '<span class="large-central-instruction">GO!</span>');
-
-	// forEach(round.stage, function (moji, index) {
-	// 	delay(
-	// 		showInstructionHTML,
-	// 		3000 + (index * 1000),
-	// 		'<span class="emoji emoji-flash">' + moji + '</a>'
-	// 	);
-	// });
-
-	// delay(showInstructionHTML, 3000 + (round.stage.length * 1000), '<span class="large-central-instruction">Done.</span>');
-	// delay(showChoices, 3000 + ((round.stage.length + 1) * 1000));
 }
 
 function handleSpacebar() {
+	if (spacebarTimeout) {
+		clearTimeout(spacebarTimeout);
+		spacebarTimeout = null;
+	}
+
 	if (!currentGame) {
 		return startGame();
 	}
+
+	var html;
 
 	var round = currentGame.currentRound;
 
@@ -339,7 +341,17 @@ function handleSpacebar() {
 	var moji = round.getNextEmoji();
 
 	if (moji) {
-		showInstructionHTML('<span class="emoji emoji-flash">' + moji + '</a>');
+		html = '<span class="' + emojiClass + ' emoji-flash">' + moji + '</span>';
+		if (round.recallCount > 2) {
+			html += '<span id="hit-spacebar-hint" class="hint-below-emoji hidden">Hit <kbd>spacebar</kbd> to continue</span>';
+			spacebarTimeout = setTimeout(function () {
+				var spHint = document.getElementById('hit-spacebar-hint');
+				bonzo(spHint).removeClass('hidden');
+			}, 5000);
+		} else {
+			html += '<span id="hit-spacebar-hint" class="hint-below-emoji">Hit <kbd>spacebar</kbd> to continue</span>';
+		}
+		showInstructionHTML(html);
 	} else {
 		showChoices();
 	}
@@ -380,7 +392,6 @@ function saveAndGoToNextRound() {
 		}
 		dataStore.push(data);
 	}
-	currentGame.finishCurrentRound();
 	nextStage();
 }
 
@@ -398,6 +409,13 @@ document.body.onkeyup = function (e) {
 
 if (!isEmojiSupported(thinkingEmoji)) {
 	bonzo(document.getElementById('emojiThinkingHeader')).remove();
+}
+
+if (useOpenSansEmoji || navigator.userAgent.match(/linux/i) && !navigator.userAgent.match(/android/i)) {
+	// Looks like we've got a non-Android linux client
+	emojiClass = 'emoji accessible';
+	emojiListClass = 'emoji-list accessible';
+	bonzo(document.getElementsByClassName('emoji')).addClass('accessible');
 }
 
 },{"./Game":1,"./getapi":3,"./isEmojiSupported":5,"bonzo":33,"lodash/delay":262,"lodash/difference":263,"lodash/forEach":265,"lodash/pull":280}],5:[function(require,module,exports){
