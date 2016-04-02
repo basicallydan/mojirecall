@@ -320,7 +320,7 @@ function nextStage() {
 	showInstructionHTML(start);
 }
 
-function handleSpacebar() {
+function handleSpacebarOrTap() {
 	if (spacebarTimeout) {
 		clearTimeout(spacebarTimeout);
 		spacebarTimeout = null;
@@ -405,11 +405,18 @@ showFullResults.addEventListener('click', showGameOver, false);
 
 document.body.onkeyup = function (e) {
 	if (e.keyCode == 32) {
-		handleSpacebar(e);
+		handleSpacebarOrTap();
 	} else if (e.keyCode == 13) {
-		handleReturn(e);
+		handleReturn();
 	}
 };
+
+if ('ontouchend' in document.documentElement) {
+	instructionPanel.addEventListener('touchend', handleSpacebarOrTap, false);
+	document.documentElement.className += ' touch';
+} else {
+	document.documentElement.className += ' no-touch';
+}
 
 if (!isEmojiSupported(thinkingEmoji)) {
 	bonzo(document.getElementById('emojiThinkingHeader')).remove();
@@ -421,8 +428,6 @@ if (useOpenSansEmoji || navigator.userAgent.match(/linux/i) && !navigator.userAg
 	emojiListClass = 'emoji-list accessible';
 	bonzo(document.getElementsByClassName('emoji')).addClass('accessible');
 }
-
-document.documentElement.className += "ontouchstart" in document.documentElement ? ' touch' : ' no-touch';
 
 },{"./Game":1,"./getapi":3,"./isEmojiSupported":5,"bonzo":33,"lodash/difference":254,"lodash/pull":270}],5:[function(require,module,exports){
 'use strict';
