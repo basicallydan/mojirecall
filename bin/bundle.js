@@ -126,8 +126,8 @@ var emojiClass = 'emoji';
 var emojiListClass = 'emoji-list';
 
 var database = new GetAPI('http://mojirecall.getapi.dev:3030');
-// var database = new GetAPI('https://mojirecall.getapi.co');
-var dataStore = database.child('moji-stories');
+var storyDataStore = database.child('moji-stories');
+var scoresDataStore = database.child('moji-scores');
 
 var thinkingEmoji = 0x1F914;
 
@@ -315,7 +315,7 @@ function nextStage() {
 	$storyInputContent.val('');
 
 	var start = '<span class="large-central-instruction">Round ' + currentGame.currentRoundNumber + '</span>';
-	start += '\n<span class="medium-central-instruction">Hit <kbd>spacebar</kbd> to start</span>';
+	start += '\n<span class="medium-central-instruction"><span class="mouse-only">Hit <kbd>spacebar</kbd> to start</span><span class="touch-only">Tap the screen to start</span></span>';
 
 	showInstructionHTML(start);
 }
@@ -341,13 +341,13 @@ function handleSpacebar() {
 	if (moji) {
 		html = '<span class="' + emojiClass + ' emoji-flash">' + moji + '</span>';
 		if (round.recallCount > 2) {
-			html += '<span id="hit-spacebar-hint" class="hint-below-emoji hidden">Hit <kbd>spacebar</kbd> to continue</span>';
+			html += '<span id="hit-spacebar-hint" class="hint-below-emoji hidden"><span class="mouse-only">Hit <kbd>spacebar</kbd> to continue</span><span class="touch-only">Tap the screen to continue</span></span>';
 			spacebarTimeout = setTimeout(function () {
 				var spHint = document.getElementById('hit-spacebar-hint');
 				bonzo(spHint).removeClass('hidden');
 			}, 5000);
 		} else {
-			html += '<span id="hit-spacebar-hint" class="hint-below-emoji">Hit <kbd>spacebar</kbd> to continue</span>';
+			html += '<span id="hit-spacebar-hint" class="hint-below-emoji"><span class="mouse-only">Hit <kbd>spacebar</kbd> to continue</span><span class="touch-only">Tap the screen to continue</span></span>';
 		}
 		showInstructionHTML(html);
 	} else {
@@ -396,7 +396,7 @@ function saveRound(storyContent, length, stage, timeTaken, twitterHandle) {
 	if (twitterHandle) {
 		data.twitter = twitterHandle;
 	}
-	dataStore.push(data);
+	storyDataStore.push(data);
 }
 
 nextRoundButton.addEventListener('click', saveAndGoToNextRound, false);
@@ -421,6 +421,8 @@ if (useOpenSansEmoji || navigator.userAgent.match(/linux/i) && !navigator.userAg
 	emojiListClass = 'emoji-list accessible';
 	bonzo(document.getElementsByClassName('emoji')).addClass('accessible');
 }
+
+document.documentElement.className += "ontouchstart" in document.documentElement ? ' touch' : ' no-touch';
 
 },{"./Game":1,"./getapi":3,"./isEmojiSupported":5,"bonzo":33,"lodash/difference":254,"lodash/pull":270}],5:[function(require,module,exports){
 'use strict';

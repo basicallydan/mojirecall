@@ -22,6 +22,7 @@
     "chibijs": "^3.0.7",
     "lodash": "^4.6.1",
     "request": "^2.69.0",
+    "uuid": "^2.0.1",
     "watchify": "^3.7.0"
   },
   "devDependencies": {

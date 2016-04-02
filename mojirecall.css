@@ -227,6 +227,22 @@ div {
     color:#efefef;
 }
 
+/* Responsive conditional stuff */
+
+.touch .touch-only {
+	/*display:auto;*/
+}
+.no-touch .touch-only {
+	display:none;
+}
+
+.touch .mouse-only {
+	display:none;
+}
+.no-touch .mouse-only {
+	/*display:hidden;*/
+}
+
 /* Results stuff */
 
 .round-result {
