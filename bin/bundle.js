@@ -14,9 +14,9 @@ var thinkingEmoji = 0x1F914;
 var allEmoji = require('./createEmojiArray')([emoticonsRange, transportMapsRange]);
 
 function Game() {
-	var startingRecallCount = 2;
+	this.startingRecallCount = 2;
 	this.askStoriesAfterRecallCount = 3;
-	this.recallCount = startingRecallCount;
+	this.recallCount = this.startingRecallCount;
 	this.currentRoundNumber = 0;
 	// At the end of each round, the information about the round is put into
 	// this array. Not before.
@@ -480,6 +480,9 @@ function getExistingScoreData() {
 }
 
 function saveScore(score) {
+	if (score === currentGame.startingRecallCount) {
+		return;
+	}
 	var latestScoreData = {
 		date: Date.parse(new Date()) / 1000,
 		score: score
