@@ -217,6 +217,7 @@ function resetUI() {
 	$failedRoundResult.addClass('hidden');
 	$finalRoundResults.html('');
 	$startRecallForm.removeClass('hidden');
+	$document.removeClass('game-underway');
 }
 
 function showInstructionHTML(text) {
@@ -300,7 +301,8 @@ function showIncorrectMessage() {
 function verifyChoices() {
 	var round = currentGame.currentRound;
 	if (round.answer.length === currentGame.recallCount) {
-		if (difference(round.answer, round.stage).length === 0) {
+		round.correct = difference(round.answer, round.stage).length === 0;
+		if (round.correct) {
 			showCorrectMessage();
 			if (round.recallCount >= currentGame.askStoriesAfterRecallCount) {
 				showStoryForm();
@@ -379,12 +381,12 @@ function handleSpacebarOrTap(type) {
 		return;
 	}
 
-	if (round.allShown && type === 'space') {
+	if (round.allShown && type === 'space' && round.correct) {
 		saveAndGoToNextRound();
-		return;
+		return false;
 	} else if (round.allShown) {
 		// It's a tap. We should not continue here.
-		return;
+		return true;
 	}
 
 	var moji = round.getNextEmoji();
@@ -423,6 +425,7 @@ function handleReturn() {
 
 function startGame() {
 	currentGame = new Game();
+	$document.addClass('game-underway');
 	nextStage();
 }
 
@@ -515,16 +518,16 @@ showFullResults.addEventListener('click', showGameOver, false);
 
 document.body.onkeyup = function (e) {
 	if (e.keyCode == 32) {
-		handleSpacebarOrTap();
+		return handleSpacebarOrTap();
 	} else if (e.keyCode == 13) {
-		handleReturn();
+		return handleReturn();
 	}
 };
 
 function handleTap(e) {
 	e.preventDefault();
 	e.stopPropagation();
-	handleSpacebarOrTap('tap');
+	return handleSpacebarOrTap('tap');
 }
 
 if ('ontouchend' in document.documentElement) {

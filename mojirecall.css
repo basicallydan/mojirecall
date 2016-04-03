@@ -25,8 +25,17 @@ div {
 	text-align:center;
 }
 
+.game-underway .main-heading {
+	font-size:0.8rem;
+	color:#aaa;
+}
+
 .emoji-header {
 	display:block;
+}
+
+.game-underway .emoji-header {
+	display:none;
 }
 
 .form-group-center {
