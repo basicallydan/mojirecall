@@ -228,13 +228,15 @@ div {
 
 .emoji-selection,.emoji-selection-empty {
     height: 2.5rem;
-    width: 2.5rem;
+    width: 3rem;
     margin: 0 0.5rem 0 0.5rem;
+
 }
 
 .emoji-selection {
-	border:1px solid #4078c0;
-	background-color:#4078c0;
+  border:1px dashed #4078c0;
+	/*border:1px solid #4078c0;*/
+	/*background-color:#4078c0;*/
 	cursor:pointer;
 }
 
