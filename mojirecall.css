@@ -66,6 +66,12 @@ div {
 	display:none;
 }
 
+.by-the-way {
+	max-width:20rem;
+	margin:1rem auto;
+	font-size:0.5rem;
+}
+
 /* Forms */
 
 .cta-block {
@@ -284,6 +290,11 @@ div {
 	background-color:#fff;
 }
 
+.made-by img {
+	height:1em;
+	vertical-align:bottom;
+}
+
 .made-by a:link,.made-by a:visited {
 	color:#60b044;
 }
@@ -295,6 +306,13 @@ div {
 
 .game-underway .made-by a:link, .game-underway .made-by a:visited {
 	color:#82AB74;
+}
+
+/* Emoji Images for Safety */
+
+.inline-emoji-image {
+	height:1em;
+	vertical-align:bottom;
 }
 
 /* CLEARFIX */

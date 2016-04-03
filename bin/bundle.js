@@ -544,6 +544,17 @@ if (useOpenSansEmoji || navigator.userAgent.match(/linux/i) && !navigator.userAg
 	bonzo(document.getElementsByClassName('emoji')).addClass('accessible');
 }
 
+window.onbeforeunload = function () {
+	var round = currentGame.currentRound;
+
+	if (round && round.allShown && !round.correct) {
+		// That means it's all over and high score has been recorded.
+		return;
+	} else if (round) {
+		return "Are you sure you want to leave before the game is over?\nYour high score will be recorded if you finish.\nYou can do it! 💪";
+	}
+};
+
 getExistingScoreData();
 
 },{"./Game":1,"./getapi":3,"bonzo":33,"js-cookie":164,"lodash/difference":255,"lodash/pull":271}],5:[function(require,module,exports){
