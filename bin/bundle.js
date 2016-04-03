@@ -209,6 +209,7 @@ var $finalRoundResults = bonzo(finalRoundResults);
 var $failedRoundResult = bonzo(failedRoundResult);
 var $topScoreContainer = bonzo(topScoreContainer);
 var $topScore = bonzo(topScore);
+var $document = bonzo(document.documentElement);
 
 function resetUI() {
 	$resultsPanel.addClass('hidden');
@@ -359,7 +360,8 @@ function nextStage() {
 	showInstructionHTML(start);
 }
 
-function handleSpacebarOrTap() {
+function handleSpacebarOrTap(type) {
+	type = type || 'space';
 	if (spacebarTimeout) {
 		clearTimeout(spacebarTimeout);
 		spacebarTimeout = null;
@@ -373,7 +375,17 @@ function handleSpacebarOrTap() {
 
 	var round = currentGame.currentRound;
 
-	if (round.allShown) return true;
+	if (document.activeElement === storyInputAuthor || document.activeElement === storyInputContent) {
+		return;
+	}
+
+	if (round.allShown && type === 'space') {
+		saveAndGoToNextRound();
+		return;
+	} else if (round.allShown) {
+		// It's a tap. We should not continue here.
+		return;
+	}
 
 	var moji = round.getNextEmoji();
 
@@ -492,6 +504,7 @@ function saveScore(score) {
 		}
 
 		existingScoreData = body;
+		updateTopScore();
 		Cookie.set('scoreLink', body.links.self);
 	});
 }
@@ -511,7 +524,7 @@ document.body.onkeyup = function (e) {
 function handleTap(e) {
 	e.preventDefault();
 	e.stopPropagation();
-	handleSpacebarOrTap();
+	handleSpacebarOrTap('tap');
 }
 
 if ('ontouchend' in document.documentElement) {
