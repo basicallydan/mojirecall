@@ -20,6 +20,7 @@
     "bonzo": "^2.0.0",
     "browserify": "^13.0.0",
     "chibijs": "^3.0.7",
+    "js-cookie": "^2.1.0",
     "lodash": "^4.6.1",
     "request": "^2.69.0",
     "uuid": "^2.0.1",

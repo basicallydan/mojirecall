@@ -253,6 +253,11 @@ div {
 	border:1px solid #aaa;
 }
 
+.top-score-number {
+	font-weight:bold;
+	color:#DF3E3E;
+}
+
 /* CLEARFIX */
 /**
  * For modern browsers
