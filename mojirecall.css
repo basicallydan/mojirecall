@@ -9,6 +9,10 @@ html {
 	font-family:"Helvetica Neue", Helvetica, Arial, Calibri, sans-serif;
 }
 
+body {
+	padding-bottom:2rem;
+}
+
 div {
 	margin-bottom:1rem;
 }
@@ -265,6 +269,32 @@ div {
 .top-score-number {
 	font-weight:bold;
 	color:#DF3E3E;
+}
+
+/* Footer */
+.made-by {
+	text-align:center;
+	position:fixed;
+	font-size:1rem;
+	padding:0.5em;
+	bottom:0;
+	left:0;
+	right:0;
+	margin-bottom:0;
+	background-color:#fff;
+}
+
+.made-by a:link,.made-by a:visited {
+	color:#60b044;
+}
+
+.game-underway .made-by {
+	font-size:0.7rem;
+	color:#aaa;
+}
+
+.game-underway .made-by a:link, .game-underway .made-by a:visited {
+	color:#82AB74;
 }
 
 /* CLEARFIX */
