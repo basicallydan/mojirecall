@@ -160,7 +160,7 @@ var emojiListClass = 'emoji-list';
 
 var existingScoreData;
 
-var database = new GetAPI('http://mojirecall.getapi.dev:3030');
+var database = new GetAPI('https://mojirecall.getapi.co');
 var storyDataStore = database.child('moji-stories');
 var scoresDataStore = database.child('moji-scores');
 
@@ -496,7 +496,7 @@ function saveScore(score) {
 		existingScoreData.content.scores = [];
 	}
 
-	if (!existingScoreData.content.topScore || latestScoreData.score > existingScoreData.content.topScore) {
+	if (!existingScoreData.content.topScore || latestScoreData.score > existingScoreData.content.topScore.score) {
 		existingScoreData.content.topScore = latestScoreData;
 	}
 
