@@ -192,6 +192,7 @@ var failedRoundResult = document.getElementById('failedRoundResult');
 var showFullResults = document.getElementById('showFullResults');
 var topScoreContainer = document.getElementById('topScoreContainer');
 var topScore = document.getElementById('topScore');
+var tweetButton = document.getElementById('tweetButton');
 
 var $startRecallForm = bonzo(startRecallForm);
 var $instructionPanel = bonzo(instructionPanel);
@@ -210,6 +211,7 @@ var $failedRoundResult = bonzo(failedRoundResult);
 var $topScoreContainer = bonzo(topScoreContainer);
 var $topScore = bonzo(topScore);
 var $document = bonzo(document.documentElement);
+var $tweetButton = bonzo(tweetButton);
 
 function resetUI() {
 	$resultsPanel.addClass('hidden');
@@ -282,6 +284,7 @@ function removeSelection() {
 
 function showStoryForm() {
 	$storyForm.removeClass('hidden');
+	$tweetButton.removeClass('hidden');
 }
 
 function showCorrectMessage() {
@@ -354,6 +357,7 @@ function nextStage() {
 	$startRecallForm.addClass('hidden');
 	$currentRoundResult.addClass('hidden');
 	$storyForm.addClass('hidden');
+	$tweetButton.addClass('hidden');
 	$storyInputContent.val('');
 
 	var start = '<span class="large-central-instruction">Round ' + currentGame.currentRoundNumber + '</span>';
@@ -438,6 +442,17 @@ function saveAndGoToNextRound() {
 	nextStage();
 }
 
+function tweetCurrentStory() {
+	var round = currentGame.currentRound;
+	var story = $storyInputContent.val().trim();
+	var text = round.stage.join('');
+	text += '–"' + story + '"';
+	var url = 'https://twitter.com/intent/tweet';
+	url += '?text=' + text + '&via=basicallydan';
+	url += '&hashtags=emojistory&url=https://moji.zone';
+	window.open(url, 'TweetEmojiStory', "resizable,scrollbars,status");
+}
+
 function saveRound(storyContent, length, stage, timeTaken, twitterHandle) {
 	var data = {
 		recallCount: length,
@@ -516,6 +531,8 @@ function saveScore(score) {
 }
 
 nextRoundButton.addEventListener('click', saveAndGoToNextRound, false);
+
+tweetButton.addEventListener('click', tweetCurrentStory, false);
 
 showFullResults.addEventListener('click', showGameOver, false);
 

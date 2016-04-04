@@ -109,6 +109,11 @@ div {
 	cursor: pointer;
 }
 
+.twitter-cta {
+	color:#FFFFFF;
+	background-color:#55ACEE;
+}
+
 .pull-right {
 	float:right;
 }
