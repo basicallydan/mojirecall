@@ -218,6 +218,7 @@ function resetUI() {
 	$instructionPanel.addClass('hidden');
 	$failedRoundResult.addClass('hidden');
 	$finalRoundResults.html('');
+	$roundResults.html('');
 	$startRecallForm.removeClass('hidden');
 	$document.removeClass('game-underway');
 }
