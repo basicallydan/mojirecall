@@ -144,6 +144,12 @@ div {
 	margin-bottom:0;
 }
 
+@media (max-width: 600px) {
+	.column-form-group .form-group-col {
+		margin-right:0;
+	}
+}
+
 .column-form-group .form-group-col-last {
 	flex-grow: 5;
 	margin-right:0;
