@@ -364,7 +364,7 @@ function nextStage() {
 	$storyInputContent.val('');
 
 	var start = '<span class="large-central-instruction">Round ' + currentGame.currentRoundNumber + '</span>';
-	start += '\n<span class="medium-central-instruction"><span class="mouse-only">Hit <kbd>spacebar</kbd> to start</span><span class="touch-only">Tap here to start</span></span>';
+	start += '\n<span class="medium-central-instruction"><span class="mouse-only">Hit <kbd>spacebar</kbd> to start</span><span class="touch-only">Tap here or hit <kbd>spacebar</kbd> to start</span></span>';
 
 	showInstructionHTML(start);
 }
@@ -401,13 +401,13 @@ function handleSpacebarOrTap(type) {
 	if (moji) {
 		html = '<span class="' + emojiClass + ' emoji-flash">' + moji + '</span>';
 		if (round.recallCount > 2) {
-			html += '<span id="hit-spacebar-hint" class="hint-below-emoji hidden"><span class="mouse-only">Hit <kbd>spacebar</kbd> to continue</span><span class="touch-only">Tap here to continue</span></span>';
+			html += '<span id="hit-spacebar-hint" class="hint-below-emoji hidden"><span class="mouse-only">Hit <kbd>spacebar</kbd> to continue</span><span class="touch-only">Tap here or hit <kbd>spacebar</kbd> to continue</span></span>';
 			spacebarTimeout = setTimeout(function () {
 				var spHint = document.getElementById('hit-spacebar-hint');
 				bonzo(spHint).removeClass('hidden');
 			}, 5000);
 		} else {
-			html += '<span id="hit-spacebar-hint" class="hint-below-emoji"><span class="mouse-only">Hit <kbd>spacebar</kbd> to continue</span><span class="touch-only">Tap here to continue</span></span>';
+			html += '<span id="hit-spacebar-hint" class="hint-below-emoji"><span class="mouse-only">Hit <kbd>spacebar</kbd> to continue</span><span class="touch-only">Tap here or hit <kbd>spacebar</kbd> to continue</span></span>';
 		}
 		showInstructionHTML(html);
 	} else {
