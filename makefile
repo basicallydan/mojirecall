@@ -1,7 +1,9 @@
 develop:
+	mkdir -p bin
 	"./node_modules/.bin/watchify" lib/index.js -o bin/bundle.js -t [ babelify --presets [ es2015 ] ]
 
 compile:
+	mkdir -p bin
 	"./node_modules/.bin/browserify" lib/index.js -o bin/bundle.js -t [ babelify --presets [ es2015 ] ]
 
 serve:

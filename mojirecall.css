@@ -46,6 +46,20 @@ div {
 	text-align:center;
 }
 
+.smartphone-app {
+	max-width:20em;
+	margin:1rem auto;
+}
+
+.smartphone-app .email {
+	text-align:center;
+}
+
+.form-label {
+	display:block;
+	margin-bottom:1rem;
+}
+
 .hidden {
 	display:none;
 }
